@@ -1,47 +1,90 @@
-const pokemonList = document.getElementById('pokemonList')
-const loadMoreButton = document.getElementById('loadMoreButton')
+const root = document.getElementById('root')
+root.innerHTML = init()
+const ol = document.getElementById('pokemons')
+const previousButton = document.getElementById('previousButton')
+const nextButton = document.getElementById('nextButton')
+
 
 const maxRecords = 151
 const limit = 10
-let offset = 0;
+let offset = 0
 
-function convertPokemonToLi(pokemon) {
+const convertPokemonToHTML = (pokemon) => {
+
     return `
-        <li class="pokemon ${pokemon.type}">
-            <span class="number">#${pokemon.number}</span>
+        <li id="link${pokemon.id}" class="pokemon ${pokemon.type}">
+            <span class="number ${pokemon.type}">#${pokemon.id}</span>
             <span class="name">${pokemon.name}</span>
-
             <div class="detail">
+                <img src=${pokemon.photo
+        }>
                 <ol class="types">
-                    ${pokemon.types.map((type) => `<li class="type ${type}">${type}</li>`).join('')}
-                </ol>
-
-                <img src="${pokemon.photo}"
-                     alt="${pokemon.name}">
+                    ${pokemon.types.map(type => `<li class="type ${type}">${type}</li>`).join('')}
+                    
+                </ol>                    
             </div>
-        </li>
+        </li>                
     `
 }
 
 function loadPokemonItens(offset, limit) {
-    pokeApi.getPokemons(offset, limit).then((pokemons = []) => {
-        const newHtml = pokemons.map(convertPokemonToLi).join('')
-        pokemonList.innerHTML += newHtml
+    pokeApi.getPokemon(offset, limit).then(pokemons => {
+        const newHTML = pokemons.map((pokemon) => convertPokemonToHTML(pokemon)).join('')
+        ol.innerHTML = newHTML
+        
+        const links = pokemons.map(pokemon =>  "#link" + pokemon.id)
+        
+        for(i = 0; i < links.length; i++){
+            const linkButton = document.querySelector(links[i])
+            const id = i
+
+            if (linkButton != null){
+                linkButton.addEventListener('click', () => {
+                   clickedPokemon = pokemons[id]
+                   console.log(clickedPokemon)
+                    const pokemonHTML = pokemonPage(clickedPokemon)
+                    
+                   root.innerHTML = pokemonHTML
+                })
+            }
+            
+        }
+
+        
+            
+        
+
+        
+
+            
     })
+        
+
+            
+       
 }
-
 loadPokemonItens(offset, limit)
+previousButton.style.display = "none"
 
-loadMoreButton.addEventListener('click', () => {
+nextButton.addEventListener('click', () => {
     offset += limit
-    const qtdRecordsWithNexPage = offset + limit
-
-    if (qtdRecordsWithNexPage >= maxRecords) {
-        const newLimit = maxRecords - offset
-        loadPokemonItens(offset, newLimit)
-
-        loadMoreButton.parentElement.removeChild(loadMoreButton)
-    } else {
+    if (maxRecords - offset > limit) {
         loadPokemonItens(offset, limit)
+        previousButton.style.display = "block"
+    } else {
+        const lastLimit = maxRecords - offset
+        loadPokemonItens(offset, lastLimit)
+        nextButton.style.display = "none"
     }
 })
+
+previousButton.addEventListener('click', () => {
+    offset -= limit
+    loadPokemonItens(offset, limit)
+    nextButton.style.display = "block"
+    if (offset == 0) {
+        previousButton.style.display = "none"
+    }
+})
+
+

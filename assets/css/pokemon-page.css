@@ -1,0 +1,96 @@
+*{
+    font-family: 'Roboto', sans-serif;
+    box-sizing: border-box;
+    margin: 0;
+}
+.pokemonPage {
+    max-width: 800px;
+    width: 100vw;
+    margin: 0 auto;
+}
+.topContainer{
+    padding: 1rem;
+}
+.backMenu {
+    display: flex;
+    justify-content: space-between;
+}
+.backButton {
+    width: 1rem;
+}
+.likeButton {
+    width: 1rem;
+    content: url('../img/like-svgrepo-com.svg');
+}
+.checkbox {
+    display: none;
+}
+#checkbox:checked~.likeButton {
+    content: url('../img/like-svgrepo-com-fill.svg')
+}
+.header{
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+}
+.pokemonName{
+    margin: 0;
+}
+.pokemonTypes{
+    display: flex;
+    list-style: none;
+    padding: 0; 
+    margin: 0;   
+}
+.pokemonType {
+    text-align: center;
+    padding: .4rem .5rem;
+    margin: .25rem;
+    font-size: .75rem;
+    border-radius: 1rem;
+    filter: brightness(1.1)
+}
+.pokemonPhoto{
+    display: block;
+    margin: 0 auto;
+    width: 80%;
+}
+.detailContent{
+    margin: 0;
+    background-color: #fff;
+    border-top-left-radius: 1.5rem;
+    border-top-right-radius: 1.5rem;
+    padding: 10px 0;
+}
+.detailContent ul{
+    margin: 0;
+}
+.nav{
+    padding: 0 2rem;
+}
+.navList{
+    display: flex;
+    list-style: none;
+    justify-content: space-evenly;
+    padding:  0;
+    border-bottom: 1px solid #afafaf;
+}
+.navItem{
+    color: #afafaf;
+    padding-bottom: 0.5rem;
+    
+}
+.navItem:hover{
+    color: #000;
+    border-bottom: 1.5px solid #000;
+}
+.detailContent .attributes {
+    margin: 1rem 0;
+    padding: 0 2.5rem;
+    color: #afafaf;
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+}
+.pokemonData {
+    color: #000;
+}
